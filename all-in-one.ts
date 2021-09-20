@@ -1,5 +1,5 @@
-import {createApp} from "https://servestjs.org/@v1.1.0/mod.ts";
-import vs from "https://deno.land/x/value_schema/mod.ts";
+import {createApp, ServerRequest} from "https://deno.land/x/servest@v1.3.1/mod.ts";
+import vs from "https://deno.land/x/value_schema@v3.0.0/mod.ts";
 
 const schemaObject = {
     q: vs.string({                      // 文字列型
@@ -42,13 +42,13 @@ const users: User[] = [
 
 const app = createApp();
 console.log("http://localhost:8000/");
-app.get("/", async (req) => {
+app.get("/", async (req: ServerRequest) => {
     await req.respond({
         status: 200,
         body: "Hell Word",
     });
 });
-app.get("/users", async (req) => {
+app.get("/users", async (req: ServerRequest) => {
     const query: Record<string, string> = {};
     for (const [k, v] of req.query.entries()) {
         query[k] = v;
@@ -66,7 +66,7 @@ app.get("/users", async (req) => {
         body: JSON.stringify(filteredUsers),
     });
 });
-app.get(new RegExp("^/users/(\\d+)"), async (req) => {
+app.get(new RegExp("^/users/(\\d+)"), async (req: ServerRequest) => {
     const [_, id] = req.match;
     const filtered = users.filter(user => user.id === Number(id))
     if (filtered.length === 0) {
