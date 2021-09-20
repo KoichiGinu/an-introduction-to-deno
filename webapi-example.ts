@@ -1,4 +1,4 @@
-import {createApp} from "https://servestjs.org/@v1.1.0/mod.ts";
+import {createApp, ServerRequest} from "https://deno.land/x/servest@v1.3.1/mod.ts";
 
 interface User {
     id: number
@@ -20,7 +20,7 @@ const users: User[] = [
 
 const app = createApp();
 console.log("http://localhost:8000/");
-app.get("/users", async (req) => {
+app.get("/users", async (req: ServerRequest) => {
     await req.respond({
         status: 200,
         headers: new Headers({
@@ -29,7 +29,7 @@ app.get("/users", async (req) => {
         body: JSON.stringify(users),
     });
 });
-app.get(new RegExp("^/users/(\\d+)"), async (req) => {
+app.get(new RegExp("^/users/(\\d+)"), async (req: ServerRequest) => {
     const [_, id] = req.match;
     const filtered = users.filter(user => user.id === Number(id))
     if (filtered.length === 0) {

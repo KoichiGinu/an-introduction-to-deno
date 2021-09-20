@@ -1,4 +1,4 @@
-import vs from "https://deno.land/x/value_schema/mod.ts";
+import vs from "https://deno.land/x/value_schema@v3.0.0/mod.ts";
 
 const schemaObject = {
     q: vs.string({                      // 文字列型
